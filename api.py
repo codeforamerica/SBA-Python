@@ -19,6 +19,12 @@ except ImportError:  # pragma: no cover
     from urllib.parse import urlencode
 
 try:
+    from urllib import quote 
+except ImportError:  # pragma: no cover
+    # For Python 3.
+    from urllib.parse import quote
+
+try:
     from urllib2 import urlopen
 except ImportError:  # pragma: no cover
     # For Python 3.
@@ -36,12 +42,12 @@ class SBA_API(object):
 
     def call_api(self, directory):
         url_list = [self.base_url]
-        url_list.append('/%s.json' % directory)
+	# Use urllib.quote to replace spaces with %20
+        url_list.append('/%s.json' % quote(str(directory)))
         url = ''.join(url_list)
-        #print 'final url', url
+	#print 'final url', url
         data = urlopen(url).read()
         return json.loads(data)
-
 
 class Licenses_And_Permits(SBA_API):
 
@@ -62,6 +68,7 @@ class Licenses_And_Permits(SBA_API):
 
     def by_business_type_state(self, business, state):
         url = 'state_only/%s/%s' % (business, state)
+        return self.call_api(url)
 
     def by_business_type_state_county(self, business, state, county):
         url = 'state_and_county/%s/%s/%s' % (business, state, county)
@@ -72,7 +79,7 @@ class Licenses_And_Permits(SBA_API):
         return self.call_api(url)
 
     def by_business_type_zipcode(self, business, zipcode):
-        url = 'by_zip/%s/%s' % (business, zipcode)
+        url = 'by_zip/%s/%s' % (business, str(zipcode))
         return self.call_api(url)
 
 
@@ -218,4 +225,4 @@ class City_And_County_Web_Data(SBA_API):
         url = 'all_data_for_county_of/%s/%s' % (county, state)
         return self.call_api(url)
 
-#Licenses_And_Permits().by_state('tx')
+#Licenses_And_Permits().by_category('doing business as')
