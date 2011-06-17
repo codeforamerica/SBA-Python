@@ -129,6 +129,9 @@ class Recommended_Sites(SBA_API):
     def __init__(self):
         self.base_url = 'http://api.sba.gov/rec_sites'
 
+    def all_sites(self):
+        return self.call_api('all_sites/keywords')
+
     def by_keyword(self, keyword):
         url = 'keywords/%s' % keyword
         return self.call_api(url)

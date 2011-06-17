@@ -202,36 +202,47 @@ class TestMethod_Loans_And_Grants(unittest.TestCase):
         self.assertEquals(url, expected_url)
 
 
-class TestMethod_Recommended_Sites(SBA_API):
+class TestMethod_Recommended_Sites(unittest.TestCase):
 
     #def __init__(self):
         #url = called_url()
         #expected_url = ('')
         #self.assertEquals(url, expected_url)
         #self.base_url = 'http://api.sba.gov/rec_sites'
+    def testmethod_all_sites(self):
+        api.Recommended_Sites().all_sites()
+        url = called_url()
+        expected_url = ('http://api.sba.gov/rec_sites/all_sites/keywords.json')
+        self.assertEquals(url, expected_url)
 
     def testmethod_by_keyword(self):
+        api.Recommended_Sites().by_keyword('contracting')
         url = called_url()
-        expected_url = ('')
+        expected_url = ('http://api.sba.gov/rec_sites/keywords/contracting.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_category(self):
+        api.Recommended_Sites().by_category('managing a business')
         url = called_url()
-        expected_url = ('')
+        expected_url = ('http://api.sba.gov/rec_sites/category/'
+                        'managing%20a%20business.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_master_term(self):
+        api.Recommended_Sites().by_master_term('export')
         url = called_url()
-        expected_url = ('')
+        expected_url = ('http://api.sba.gov/rec_sites/keywords/master_term/'
+                        'export.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_domain(self):
+        api.Recommended_Sites().by_domain('irs')
         url = called_url()
-        expected_url = ('')
+        expected_url = ('http://api.sba.gov/rec_sites/keywords/domain/irs.json')
         self.assertEquals(url, expected_url)
 
 
-#class TestMethod_City_And_County_Web_Data(SBA_API):
+#class TestMethod_City_And_County_Web_Data(unittest.TestCase):
 
     #def __init__(self):
         #url = called_url()
