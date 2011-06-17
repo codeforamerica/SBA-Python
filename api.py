@@ -49,6 +49,7 @@ class SBA_API(object):
         data = urlopen(url).read()
         return json.loads(data)
 
+
 class Licenses_And_Permits(SBA_API):
 
     def __init__(self):

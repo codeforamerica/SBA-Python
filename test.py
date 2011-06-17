@@ -7,7 +7,7 @@ import unittest
 from mock import Mock
 
 try:
-    from urllib import unquote 
+    from urllib import unquote
 except ImportError:  # pragma: no cover
     # For Python 3.
     from urllib.parse import unquote
@@ -38,6 +38,7 @@ class Test_SBA_API(unittest.TestCase):
         example = SBA_API()
         self.assertEquals(example.base_url, 'http://api.sba.gov')
 
+
 class TestApiMethod(unittest.TestCase):
 
     def setUp(self):
@@ -46,9 +47,10 @@ class TestApiMethod(unittest.TestCase):
     def test_empty_api_method_fails(self):
         self.assertRaises(TypeError, SBA_API())
 
+
 class TestMethod_Licenses_And_Permits(unittest.TestCase):
 
-    #def __init__(self): 
+    #def __init__(self):
     #self.base_url = 'http://api.sba.gov/license_permit'
 
     def setUp(self):
@@ -64,7 +66,8 @@ class TestMethod_Licenses_And_Permits(unittest.TestCase):
     def testmethod_by_state(self):
         api.Licenses_And_Permits().by_state('ca')
         url = called_url()
-        expected_url = ('http://api.sba.gov/license_permit/all_by_state/ca.json')
+        expected_url = ('http://api.sba.gov/license_permit/all_by_state/'
+                        'ca.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_business_type(self):
@@ -75,28 +78,33 @@ class TestMethod_Licenses_And_Permits(unittest.TestCase):
         self.assertEquals(url, expected_url)
 
     def testmethod_by_business_type_state(self):
-        api.Licenses_And_Permits().by_business_type_state('child care services', 'va')
+        api.Licenses_And_Permits().by_business_type_state(
+                'child care services', 'va')
         url = called_url()
         expected_url = ('http://api.sba.gov/license_permit/state_only/'
                         'child%20care%20services/va.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_business_type_state_county(self):
-        api.Licenses_And_Permits().by_business_type_state_county('child care services', 'ca', 'los angeles county')
+        api.Licenses_And_Permits().by_business_type_state_county(
+                'child care services', 'ca', 'los angeles county')
         url = called_url()
         expected_url = ('http://api.sba.gov/license_permit/state_and_county/'
-                        'child%20care%20services/ca/los%20angeles%20county.json')
+                        'child%20care%20services/ca/'
+                        'los%20angeles%20county.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_business_type_state_city(self):
-        api.Licenses_And_Permits().by_business_type_state_city('restaurant', 'ny', 'albany')
+        api.Licenses_And_Permits().by_business_type_state_city(
+                'restaurant', 'ny', 'albany')
         url = called_url()
         expected_url = ('http://api.sba.gov/license_permit/state_and_city/'
                         'restaurant/ny/albany.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_business_type_zipcode(self):
-        api.Licenses_And_Permits().by_business_type_zipcode('restaurant', '49684') 
+        api.Licenses_And_Permits().by_business_type_zipcode('restaurant',
+                '49684')
         url = called_url()
         expected_url = ('http://api.sba.gov/license_permit/by_zip/'
                         'restaurant/49684.json')
@@ -105,9 +113,9 @@ class TestMethod_Licenses_And_Permits(unittest.TestCase):
 
 class TestMethod_Loans_And_Grants(unittest.TestCase):
 
-    #def __init__(self): 
+    #def __init__(self):
         #self.base_url = 'http://api.sba.gov/loans_grants'
-    
+
     def testmethod_federal(self):
         api.Loans_And_Grants().federal()
         url = called_url()
@@ -146,7 +154,7 @@ class TestMethod_Loans_And_Grants(unittest.TestCase):
         api.Loans_And_Grants().by_speciality('woman-general_purpose')
         url = called_url()
         expected_url = ('http://api.sba.gov/loans_grants/nil/for_profit/nil/'
-                        'woman-general_purpose.json') 
+                        'woman-general_purpose.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_industry_specialty(self):
@@ -165,7 +173,7 @@ class TestMethod_Loans_And_Grants(unittest.TestCase):
         self.assertEquals(url, expected_url)
 
     def testmethod_by_state_industry(self):
-        api.Loans_And_Grants().by_state_industry('me', 'manufacturing') 
+        api.Loans_And_Grants().by_state_industry('me', 'manufacturing')
         url = called_url()
         expected_url = ('http://api.sba.gov/loans_grants/me/for_profit/'
                         'manufacturing/nil.json')
@@ -179,7 +187,8 @@ class TestMethod_Loans_And_Grants(unittest.TestCase):
         self.assertEquals(url, expected_url)
 
     def testmethod_by_state_specialty_multiple(self):
-        api.Loans_And_Grants().by_state_specialty('ny', 'general_purpose-woman')
+        api.Loans_And_Grants().by_state_specialty('ny'
+                'general_purpose-woman')
         url = called_url()
         expected_url = ('http://api.sba.gov/loans_grants/ny/for_profit/nil/'
                         'general_purpose-woman.json')
@@ -218,7 +227,8 @@ class TestMethod_Recommended_Sites(unittest.TestCase):
     def testmethod_by_keyword(self):
         api.Recommended_Sites().by_keyword('contracting')
         url = called_url()
-        expected_url = ('http://api.sba.gov/rec_sites/keywords/contracting.json')
+        expected_url = ('http://api.sba.gov/rec_sites/keywords/'
+                        'contracting.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_category(self):
@@ -238,7 +248,8 @@ class TestMethod_Recommended_Sites(unittest.TestCase):
     def testmethod_by_domain(self):
         api.Recommended_Sites().by_domain('irs')
         url = called_url()
-        expected_url = ('http://api.sba.gov/rec_sites/keywords/domain/irs.json')
+        expected_url = ('http://api.sba.gov/rec_sites/keywords/domain/'
+                        'irs.json')
         self.assertEquals(url, expected_url)
 
 
@@ -271,16 +282,16 @@ class TestMethod_City_And_County_Web_Data(unittest.TestCase):
                         'county_links_for_state_of/fl.json')
         self.assertEquals(url, expected_url)
 
-
     def testmethod_all_urls_by_state_elsecase(self):
         api.City_And_County_Web_Data().all_urls_by_state('fl', False, False)
         url = called_url()
         expected_url = ('http://api.sba.gov/geodata/'
                         'city_county_links_for_state_of/fl.json')
         self.assertEquals(url, expected_url)
-        
+
     def testmethod_all_urls_by_county(self):
-        api.City_And_County_Web_Data().all_urls_by_county('ca', 'orange county')
+        api.City_And_County_Web_Data().all_urls_by_county('ca',
+                'orange county')
         url = called_url()
         expected_url = ('http://api.sba.gov/geodata/all_links_for_county_of/'
                         'orange%20county/ca.json')
@@ -313,19 +324,22 @@ class TestMethod_City_And_County_Web_Data(unittest.TestCase):
         expected_url = ('http://api.sba.gov/geodata/'
                         'primary_city_links_for_state_of/tx.json')
         self.assertEquals(url, expected_url)
-        
+
     def testmethod_primary_urls_by_state_elsecase(self):
-        api.City_And_County_Web_Data().primary_urls_by_state('tx', False, False)
+        api.City_And_County_Web_Data().primary_urls_by_state('tx', False,
+                False)
         url = called_url()
         expected_url = ('http://api.sba.gov/geodata/'
                         'primary_city_county_links_for_state_of/tx.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_primary_urls_by_county(self):
-        api.City_And_County_Web_Data().primary_urls_by_county('wa', 'king county')
+        api.City_And_County_Web_Data().primary_urls_by_county('wa',
+                'king county')
         url = called_url()
         expected_url = ('http://api.sba.gov/geodata/'
-                        'primary_links_for_county_of/king%20county/wa.json')
+                        'primary_links_for_county_of/king%20county/'
+                        'wa.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_primary_urls_by_city(self):
@@ -364,10 +378,11 @@ class TestMethod_City_And_County_Web_Data(unittest.TestCase):
         self.assertEquals(url, expected_url)
 
     def testmethod_all_data_by_county(self):
-        api.City_And_County_Web_Data().all_data_by_county('md', 'frederick county')
+        api.City_And_County_Web_Data().all_data_by_county('md',
+               'frederick county')
         url = called_url()
         expected_url = ('http://api.sba.gov/geodata/all_data_for_county_of/'
-                        'frederick%20county/md.json') 
+                        'frederick%20county/md.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_all_data_by_city(self):
