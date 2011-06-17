@@ -56,30 +56,156 @@ class Licenses_And_Permits(SBA_API):
         self.base_url = 'http://api.sba.gov/license_permit'
 
     def by_category(self, state):
+        """
+        Returns results for a matching license or permit category for each 54
+        states and territories.
+
+        @param category [String] One of the following categories: 
+        doing business as, entity filing, employer requirements, 
+        states licenses, tax registration
+
+        @see http://www.sba.gov/content/business-licenses-permits-api-category-method 
+
+        >>> api.Licenses_And_Permits().by_category('doing business as')
+        """
         url = 'by_category/%s' % state
         return self.call_api(url)
 
     def by_state(self, state):
+        """
+        Returns all business licenses for all business types required to 
+        operate in an specific state or territory.
+        
+        @param state [String] Input the two letter postal code for the state 
+        abbreviation.
+
+        @see http://www.sba.gov/content/business-licenses-permits-api-state-method
+
+        >>> api.Licenses_And_Permits().by_state('ca')
+        """
         url = 'all_by_state/%s' % state
         return self.call_api(url)
 
     def by_business_type(self, business_type):
+        """
+        Returns business licenses and permits required for a specific type of 
+        business for all 54 states and territories 
+
+        @param business [String] The business parameter includes standard 
+        values that allow you to return license and permit information for a 
+        specific type of business or for specific employer requirements
+        Allowed values: 'general business licenses', 'auto dealership', 
+        'barber shop', 'beauty salon', 'child care services', 
+        'construction contractor', 'debt collection agency', 'electrician', 
+        'massage', 'therapist', 'plumber', 'restaurant', 
+        'insurance requirements', 'new hire reporting requirements', 
+        'state tax registration', 'workplace poster requirements'
+        
+        """
         url = 'by_business_type/%s' % business_type
         return self.call_api(url)
 
     def by_business_type_state(self, business, state):
+        """
+        Returns business licenses and permits required for a specific type of 
+        business in a specific state.
+
+        @param business [String] The business parameter includes standard 
+        values that allow you to return license and permit information for a 
+        specific type of business or for specific employer requirements
+        Allowed values: 'general business licenses', 'auto dealership', 
+        'barber shop', 'beauty salon', 'child care services', 
+        'construction contractor', 'debt collection agency', 'electrician', 
+        'massage', 'therapist', 'plumber', 'restaurant', 
+        'insurance requirements', 'new hire reporting requirements', 
+        'state tax registration', 'workplace poster requirements'
+        @param state [String] Input the two letter postal code for the state 
+        abbreviation.
+
+        @see http://www.sba.gov/content/business-licenses-permits-api-business-type-and-state-method
+
+        >>> api.Licenses_And_Permits().by_business_type_state(
+                'child care services', 'va')
+        """
         url = 'state_only/%s/%s' % (business, state)
         return self.call_api(url)
 
     def by_business_type_state_county(self, business, state, county):
+        """
+        Returns business licenses and permits required for a specific type of 
+        business in a specific state and county.
+
+        @param business [String] The business parameter includes standard 
+        values that allow you to return license and permit information for a 
+        specific type of business or for specific employer requirements. 
+        Allowed values: 'general business licenses', 'auto dealership', 
+        'barber shop', 'beauty salon', 'child care services', 
+        'construction contractor', 'debt collection agency', 'electrician', 
+        'massage', 'therapist', 'plumber', 'restaurant', 
+        'insurance requirements', 'new hire reporting requirements', 
+        'state tax registration', 'workplace poster requirements'
+        @param state [String] Input the two letter postal code for the state 
+        abbreviation.
+        @param county [String] Input the name of the county (or its 
+        equivalent).  County (or equivalent) name should including the word "
+        county" (or "parish" etc.)  For example, input Orange County, not Orange.
+
+        @see http://www.sba.gov/content/business-licenses-permits-api-business-type-state-and-county-method
+              
+        >>> api.Licenses_And_Permits().by_business_type_state_county(
+                'child care services', 'ca', 'los angeles county')
+        """
         url = 'state_and_county/%s/%s/%s' % (business, state, county)
         return self.call_api(url)
 
     def by_business_type_state_city(self, business, state, city):
+        """
+        Returns business licenses and permits required for a specific type of 
+        business in a specific state and city
+
+        @param business [String] The business parameter includes standard 
+        values that allow you to return license and permit information for a 
+        specific type of business or for specific employer requirements. 
+        Allowed values: 'general business licenses', 'auto dealership', 
+        'barber shop', 'beauty salon', 'child care services', 
+        'construction contractor', 'debt collection agency', 'electrician', 
+        'massage', 'therapist', 'plumber', 'restaurant', 
+        'insurance requirements', 'new hire reporting requirements', 
+        'state tax registration', 'workplace poster requirements'
+        @param state [String] Input the two letter postal code for the state 
+        abbreviation.
+        @param city [String] Input the name of the City. 
+
+        @see http://www.sba.gov/content/business-licenses-permits-api-business-type-state-and-city-method
+        >>> api.Licenses_And_Permits().by_business_type_state_city(
+                'restaurant', 'ny', 'albany')
+        """
         url = 'state_and_city/%s/%s/%s' % (business, state, city)
         return self.call_api(url)
 
+
     def by_business_type_zipcode(self, business, zipcode):
+        """
+        Returns business licenses and permits required for a specific type of 
+        business in a specific zip code
+
+        @param business [String] The business parameter includes standard 
+        values that allow you to return license and permit information for a 
+        specific type of business or for specific employer requirements. 
+        Allowed values: 'general business licenses', 'auto dealership', 
+        'barber shop', 'beauty salon', 'child care services', 
+        'construction contractor', 'debt collection agency', 'electrician', 
+        'massage', 'therapist', 'plumber', 'restaurant', 
+        'insurance requirements', 'new hire reporting requirements', 
+        'state tax registration', 'workplace poster requirements'
+        @param zip [String] Input a valid five digit zip code.
+
+        @see http://www.sba.gov/content/business-licenses-permits-api-business-type-state-and-city-method
+        
+        >>> api.Licenses_And_Permits().by_business_type_zipcode('restaurant',
+                '49684')
+        """
+        def business_type_zip(business, zip, options={})
         url = 'by_zip/%s/%s' % (business, str(zipcode))
         return self.call_api(url)
 
