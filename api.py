@@ -45,7 +45,7 @@ class SBA_API(object):
 	# Use urllib.quote to replace spaces with %20
         url_list.append('/%s.json' % quote(str(directory)))
         url = ''.join(url_list)
-	#print 'final url', url
+        #print 'final url', url
         data = urlopen(url).read()
         return json.loads(data)
 
@@ -154,7 +154,7 @@ class City_And_County_Web_Data(SBA_API):
     def __init__(self):
         self.base_url = 'http://api.sba.gov/geodata'
 
-    def all_urls_by_state(self, state, show_county=True, show_city=True):
+    def all_urls_by_state(self, state, show_county, show_city):
         if show_county and show_city:
             url = 'city_county_links_for_state_of/%s' % state
         elif not show_county and show_city:
@@ -163,22 +163,23 @@ class City_And_County_Web_Data(SBA_API):
             url = 'county_links_for_state_of/%s' % state
         else:
             url = 'city_county_links_for_state_of/%s' % state
-
-    def all_urls_by_city(self, state, city=None):
-        url = 'all_links_for_city_of/%s/%s' % (city, state)
         return self.call_api(url)
 
-    def all_urls_by_county(self, state, county=None):
+    def all_urls_by_county(self, state, county):
         """
         Semi-internal method for calling USA Today's Census API. Most of the
         other methods rely on this method.
 
         >>> Census().api('locations', keypat='KY')
         """
-        url = 'all_links_for_county_of/%s/%s' % (city, state)
+        url = 'all_links_for_county_of/%s/%s' % (county, state)
         return self.call_api(url)
 
-    def primary_urls_by_state(self, state, show_county=True, show_city=True):
+    def all_urls_by_city(self, state, city):
+        url = 'all_links_for_city_of/%s/%s' % (city, state)
+        return self.call_api(url)
+
+    def primary_urls_by_state(self, state, show_county, show_city):
         """
         Semi-internal method for calling USA Today's Census API. Most of the
         other methods rely on this method.
@@ -195,15 +196,15 @@ class City_And_County_Web_Data(SBA_API):
             url = 'primary_city_county_links_for_state_of/%s' % state
         return self.call_api(url)
 
-    def primary_urls_by_city(self, state, city=None):
-        url = 'primary_links_for_city_of/%s/%s' % (city, state)
-        return self.call_api(url)
-
-    def primary_urls_by_county(self, state, county=None):
+    def primary_urls_by_county(self, state, county):
         url = 'primary_links_for_county_of/%s/%s' % (county, state)
         return self.call_api(url)
 
-    def all_data_by_state(self, state, county=None, city=None):
+    def primary_urls_by_city(self, state, city):
+        url = 'primary_links_for_city_of/%s/%s' % (city, state)
+        return self.call_api(url)
+
+    def all_data_by_state(self, state, show_county, show_city):
         if show_county and show_city:
             url = 'city_county_data_for_state_of/%s' % state
         elif show_county and not show_city:
@@ -214,7 +215,7 @@ class City_And_County_Web_Data(SBA_API):
             url = 'city_county_data_for_state_of/%s' % state
         return self.call_api(url)
 
-    def all_data_by_city(self, state, city=None):
+    def all_data_by_city(self, state, city):
         """
         Semi-internal method for calling USA Today's Census API. Most of the
         other methods rely on this method.
@@ -224,7 +225,7 @@ class City_And_County_Web_Data(SBA_API):
         url = 'all_data_for_city_of/%s/%s' % (city, state)
         return self.call_api(url)
 
-    def all_data_by_county(self, state, county=None):
+    def all_data_by_county(self, state, county):
         url = 'all_data_for_county_of/%s/%s' % (county, state)
         return self.call_api(url)
 

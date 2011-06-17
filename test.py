@@ -242,7 +242,7 @@ class TestMethod_Recommended_Sites(unittest.TestCase):
         self.assertEquals(url, expected_url)
 
 
-#class TestMethod_City_And_County_Web_Data(unittest.TestCase):
+class TestMethod_City_And_County_Web_Data(unittest.TestCase):
 
     #def __init__(self):
         #url = called_url()
@@ -250,40 +250,132 @@ class TestMethod_Recommended_Sites(unittest.TestCase):
         #self.assertEquals(url, expected_url)
         #self.base_url = 'http://api.sba.gov/geodata'
 
-    #def testmethod_all_urls_by_state(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
+    def testmethod_all_urls_by_state_citycountyurls(self):
+        api.City_And_County_Web_Data().all_urls_by_state('tx', True, True)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'city_county_links_for_state_of/tx.json')
+        self.assertEquals(url, expected_url)
 
-    #def testmethod_all_urls_by_county(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
+    def testmethod_all_urls_by_state_cityurls(self):
+        api.City_And_County_Web_Data().all_urls_by_state('nj', False, True)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'city_links_for_state_of/nj.json')
+        self.assertEquals(url, expected_url)
 
-    #def testmethod_primary_urls_by_city(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
+    def testmethod_all_urls_by_state_countyurls(self):
+        api.City_And_County_Web_Data().all_urls_by_state('fl', True, False)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'county_links_for_state_of/fl.json')
+        self.assertEquals(url, expected_url)
 
-    #def testmethod_primary_urls_by_county(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
 
-    #def testmethod_all_data_by_state(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
+    def testmethod_all_urls_by_state_elsecase(self):
+        api.City_And_County_Web_Data().all_urls_by_state('fl', False, False)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'city_county_links_for_state_of/fl.json')
+        self.assertEquals(url, expected_url)
+        
+    def testmethod_all_urls_by_county(self):
+        api.City_And_County_Web_Data().all_urls_by_county('ca', 'orange county')
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/all_links_for_county_of/'
+                        'orange%20county/ca.json')
+        self.assertEquals(url, expected_url)
 
-    #def testmethod_all_data_by_city(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
+    def testmethod_all_urls_by_city(self):
+        api.City_And_County_Web_Data().all_urls_by_city('tx', 'dallas')
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/all_links_for_city_of/'
+                        'dallas/tx.json')
+        self.assertEquals(url, expected_url)
 
-    #def testmethod_all_data_by_county(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
+    def testmethod_primary_urls_by_state_citycountyurls(self):
+        api.City_And_County_Web_Data().primary_urls_by_state('mi', True, True)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'primary_city_county_links_for_state_of/mi.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_primary_urls_by_state_countyurls(self):
+        api.City_And_County_Web_Data().primary_urls_by_state('mi', True, False)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'primary_county_links_for_state_of/mi.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_primary_urls_by_state_cityurls(self):
+        api.City_And_County_Web_Data().primary_urls_by_state('tx', False, True)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'primary_city_links_for_state_of/tx.json')
+        self.assertEquals(url, expected_url)
+        
+    def testmethod_primary_urls_by_state_elsecase(self):
+        api.City_And_County_Web_Data().primary_urls_by_state('tx', False, False)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'primary_city_county_links_for_state_of/tx.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_primary_urls_by_county(self):
+        api.City_And_County_Web_Data().primary_urls_by_county('wa', 'king county')
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'primary_links_for_county_of/king%20county/wa.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_primary_urls_by_city(self):
+        api.City_And_County_Web_Data().primary_urls_by_city('tx', 'dallas')
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/primary_links_for_city_of/'
+                        'dallas/tx.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_all_data_by_state_citycountyurls(self):
+        api.City_And_County_Web_Data().all_data_by_state('ca', True, True)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'city_county_data_for_state_of/ca.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_all_data_by_state_countyurls(self):
+        api.City_And_County_Web_Data().all_data_by_state('ca', True, False)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'county_data_for_state_of/ca.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_all_data_by_state_cityurls(self):
+        api.City_And_County_Web_Data().all_data_by_state('ca', False, True)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'city_data_for_state_of/ca.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_all_data_by_state_elsecase(self):
+        api.City_And_County_Web_Data().all_data_by_state('ca', False, False)
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/'
+                        'city_county_data_for_state_of/ca.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_all_data_by_county(self):
+        api.City_And_County_Web_Data().all_data_by_county('md', 'frederick county')
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/all_data_for_county_of/'
+                        'frederick%20county/md.json') 
+        self.assertEquals(url, expected_url)
+
+    def testmethod_all_data_by_city(self):
+        api.City_And_County_Web_Data().all_data_by_city('wa', 'seattle')
+        url = called_url()
+        expected_url = ('http://api.sba.gov/geodata/all_data_for_city_of/'
+                        'seattle/wa.json')
+        self.assertEquals(url, expected_url)
 
 
 if __name__ == '__main__':
