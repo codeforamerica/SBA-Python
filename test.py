@@ -136,37 +136,73 @@ class TestMethod_Loans_And_Grants(unittest.TestCase):
         self.assertEquals(url, expected_url)
 
     def testmethod_by_speciality(self):
-        api.Loans_And_Grants().by_speciality()
+        api.Loans_And_Grants().by_speciality('woman')
         url = called_url()
-        expected_url = ('')
+        expected_url = ('http://api.sba.gov/loans_grants/nil/for_profit/nil/'
+                        'woman.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_by_speciality_multiple(self):
+        api.Loans_And_Grants().by_speciality('woman-general_purpose')
+        url = called_url()
+        expected_url = ('http://api.sba.gov/loans_grants/nil/for_profit/nil/'
+                        'woman-general_purpose.json') 
         self.assertEquals(url, expected_url)
 
     def testmethod_by_industry_specialty(self):
-        api.Loans_And_Grants().federal()
+        api.Loans_And_Grants().by_industry_specialty('manufacturing', 'woman')
         url = called_url()
-        expected_url = ('')
+        expected_url = ('http://api.sba.gov/loans_grants/nil/for_profit/'
+                        'manufacturing/woman.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_by_industry_specialty_multiple(self):
+        api.Loans_And_Grants().by_industry_specialty('manufacturing',
+                'woman-minority')
+        url = called_url()
+        expected_url = ('http://api.sba.gov/loans_grants/nil/for_profit/'
+                        'manufacturing/woman-minority.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_state_industry(self):
-        api.Loans_And_Grants().federal()
+        api.Loans_And_Grants().by_state_industry('me', 'manufacturing') 
         url = called_url()
-        expected_url = ('')
+        expected_url = ('http://api.sba.gov/loans_grants/me/for_profit/'
+                        'manufacturing/nil.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_state_specialty(self):
-        api.Loans_And_Grants().federal()
+        api.Loans_And_Grants().by_state_specialty('ny', 'general_purpose')
         url = called_url()
-        expected_url = ('')
+        expected_url = ('http://api.sba.gov/loans_grants/ny/for_profit/nil/'
+                        'general_purpose.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_by_state_specialty_multiple(self):
+        api.Loans_And_Grants().by_state_specialty('ny', 'general_purpose-woman')
+        url = called_url()
+        expected_url = ('http://api.sba.gov/loans_grants/ny/for_profit/nil/'
+                        'general_purpose-woman.json')
         self.assertEquals(url, expected_url)
 
     def testmethod_by_state_industry_specialty(self):
-        api.Loans_And_Grants().federal()
+        api.Loans_And_Grants().by_state_industry_specialty('me',
+                'manufacturing', 'woman')
         url = called_url()
-        expected_url = ('')
+        expected_url = ('http://api.sba.gov/loans_grants/me/for_profit/'
+                        'manufacturing/woman.json')
+        self.assertEquals(url, expected_url)
+
+    def testmethod_by_state_industry_specialty_multiple(self):
+        api.Loans_And_Grants().by_state_industry_specialty('me',
+                'manufacturing', 'development-woman')
+        url = called_url()
+        expected_url = ('http://api.sba.gov/loans_grants/me/for_profit/'
+                        'manufacturing/development-woman.json')
         self.assertEquals(url, expected_url)
 
 
-#class TestMethod_Recommended_Sites(SBA_API):
+class TestMethod_Recommended_Sites(SBA_API):
 
     #def __init__(self):
         #url = called_url()
@@ -174,25 +210,25 @@ class TestMethod_Loans_And_Grants(unittest.TestCase):
         #self.assertEquals(url, expected_url)
         #self.base_url = 'http://api.sba.gov/rec_sites'
 
-    #def testmethod_by_keyword(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
+    def testmethod_by_keyword(self):
+        url = called_url()
+        expected_url = ('')
+        self.assertEquals(url, expected_url)
 
-    #def testmethod_by_category(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
+    def testmethod_by_category(self):
+        url = called_url()
+        expected_url = ('')
+        self.assertEquals(url, expected_url)
 
-    #def testmethod_by_master_term(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
+    def testmethod_by_master_term(self):
+        url = called_url()
+        expected_url = ('')
+        self.assertEquals(url, expected_url)
 
-    #def testmethod_by_domain(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
+    def testmethod_by_domain(self):
+        url = called_url()
+        expected_url = ('')
+        self.assertEquals(url, expected_url)
 
 
 #class TestMethod_City_And_County_Web_Data(SBA_API):
