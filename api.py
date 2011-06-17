@@ -19,7 +19,7 @@ except ImportError:  # pragma: no cover
     from urllib.parse import urlencode
 
 try:
-    from urllib import quote 
+    from urllib import quote
 except ImportError:  # pragma: no cover
     # For Python 3.
     from urllib.parse import quote
@@ -42,7 +42,7 @@ class SBA_API(object):
 
     def call_api(self, directory):
         url_list = [self.base_url]
-	# Use urllib.quote to replace spaces with %20
+        # Use urllib.quote to replace spaces with %20
         url_list.append('/%s.json' % quote(str(directory)))
         url = ''.join(url_list)
         #print 'final url', url
