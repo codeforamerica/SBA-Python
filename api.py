@@ -3,7 +3,7 @@
 """
 Python wrapper for the SBA (U.S. Small Business Administration) API.  
 
-SBA API Documentation:  http://developer.usatoday.com/docs/read/Census
+SBA API Documentation: http://www.sba.gov/api/ 
 """
 
 try:
@@ -25,7 +25,7 @@ except ImportError:  # pragma: no cover
     from urllib.request import urlopen
 
 
-class SBA_Wrapper(object):
+class SBA_API(object):
     """Wrapper for the SBA Loans and Grants API."""
 
     def __init__(self):
@@ -34,132 +34,160 @@ class SBA_Wrapper(object):
 	#business_categories = ['doing business as', 'entity filing', 'employer requirements', 'state licenses', 'tax registration']
 	#business_type = ['general business licenses', 'auto dealership', 'barber shop', 'beauty salon', 'child care services', 'construction contractor', 'debt collection agency', 'electrician', 'massage', 'therapist', 'plumber', 'restaurant', 'insurance requirements', 'new hire reporting requirements', 'state tax registration', 'workplace poster requirements']
 
-    def api(self, directory):
+    def call_api(self, directory):
 	url_list = [self.base_url]
 	url_list.append('/%s.json' % directory)
 	url = ''.join(url_list)
-	#print 'final url' + url
+	print 'final url', url
 	data = urlopen(url).read()
 	return json.loads(data)
 
-    def licenses_permits_category(self, category):
-	url = 'license_permit/by_category/%s' % category
-	return self.api(url)
+class Licenses_And_Permits(SBA_API):
 
-    def license_permits_all_by_state(self, state):
-	url = 'license_permit/all_by_state/%s' % state 
-	return self.api(url)
+    def __init__(self): 
+	self.base_url = 'http://api.sba.gov/license_permit'
 
-    def licenses_permits_by_business_type(self, business_type):
-	url = 'license_permit/by_business_type/%s' % business_type
-	return self.api(url)
+    def by_state(self, state):
+	url = 'all_by_state/%s' % state 
+	return self.call_api(url)
 
-    def licenses_permits_by_business_type_state(self, business, state):
-	url = 'license_permit/state_only/%s/%s' % (business, state)
+    def by_business_type(self, business_type):
+	url = 'by_business_type/%s' % business_type
+	return SBA_API.call_api(url)
 
-    def licenses_permits_by_business_type_state_county(self, business, state, county):
-	url = 'license_permit/state_and_county/%s/%s/%s' % (business, state, county)
-	return self.api(url)
+    def by_business_type_state(self, business, state):
+	url = 'state_only/%s/%s' % (business, state)
 
-    def licenses_permits_by_business_type_state_city(self, business, state, city):
-	url = 'license_permit/state_and_city/%s/%s/%s' % (business, state, city)
-	return self.api(url)
+    def by_business_type_state_county(self, business, state, county):
+	url = 'state_and_county/%s/%s/%s' % (business, state, county)
+	return SBA_API.call_api(url)
 
-    def licenses_permits_by_business_type_zipcode(self, business, zipcode):
-	url = 'license_permit/by_zip/%s/%s' % (business, zipcode)
-	return self.api(url)
+    def by_business_type_state_city(self, business, state, city):
+	url = 'state_and_city/%s/%s/%s' % (business, state, city)
+	return SBA_API.call_api(url)
 
+    def by_business_type_zipcode(self, business, zipcode):
+	url = 'by_zip/%s/%s' % (business, zipcode)
+	return SBA_API.call_api(url)
 
-    def loans_and_grants_federal(self):
-	return self.api('loans_grants/federal')
+class Loans_And_Grants(SBA_API):
 
-    def loans_and_grants_state(self, state):
-	url = 'loans_grants/state_financing_for/%s' % state
-	return self.api(url)
+    def __init__(self): 
+	self.base_url = 'http://api.sba.gov/loans_grants'
 
-    def loans_and_grants_federal_and_state(self, state):
-	url = 'loans_grants/federal_and_state_financing_for/%s' % state
-	return self.api(url)
+    def federal(self):
+	return self.call_api('federal')
 
-    def loans_and_grants_by_industry(self, industry):
-	url = 'loans_grants/nil/for_profit/%s/nil' % industry
-	return self.api(url)
+    def state(self, state):
+	url = 'state_financing_for/%s' % state
+	return self.call_api(url)
 
-    def loans_grants_by_speciality(self, specialty):
-	url = 'loans_grants/nil/for_profit/nil/%s' % specialty
-	return self.api(url)
+    def federal_and_state(self, state):
+	url = 'federal_and_state_financing_for/%s' % state
+	return self.call_api(url)
 
-    def loan_grants_by_industry_specialty(self, industry, specialty):
-	url = 'loans_grants/nil/for_profit/%s/%s' % (industry, specialty)
-	return self.api(url)
+    def by_industry(self, industry):
+	url = 'nil/for_profit/%s/nil' % industry
+	return self.call_api(url)
 
-    def loan_grants_by_state_industry(self, state, industry):
-	url = 'loans_grants/%s/for_profit/%s/nil' % (state, industry)
-	return self.api(url)
+    def by_speciality(self, specialty):
+	url = 'nil/for_profit/nil/%s' % specialty
+	return self.call_api(url)
 
-    def loan_grants_by_state_specialty(self, state, specialty):
-	url = 'loans_grants/%s/for_profit/nil/%s' % (state, specialty)
-	return self.api(url)
+    def by_industry_specialty(self, industry, specialty):
+	url = 'nil/for_profit/%s/%s' % (industry, specialty)
+	return self.call_api(url)
 
-    def loan_grants_by_state_industry_specialty(self, state, industry, specialty):
-	url = 'loans_grants/%s/for_profit/%s/%s' % (state, industry, specialty)
-	return self.api(url)
+    def by_state_industry(self, state, industry):
+	url = '%s/for_profit/%s/nil' % (state, industry)
+	return self.call_api(url)
 
+    def by_state_specialty(self, state, specialty):
+	url = '%s/for_profit/nil/%s' % (state, specialty)
+	return self.call_api(url)
 
-    def sites_by_keyword(self, keyword):
-	url = 'rec_sites/keywords/%s' % keyword
-	return self.api(url)
+    def by_state_industry_specialty(self, state, industry, specialty):
+	url = '%s/for_profit/%s/%s' % (state, industry, specialty)
+	return self.call_api(url)
 
-    def sites_by_category(self, category):
-	url = 'rec_sites/category/%s' % category
-	return self.api(url)
+class Recommended_Sites(SBA_API):
 
-    def sites_by_master_term(self, term):
-	url = 'rec_sites/keywords/master_term/%s' % term
-	return self.api(url)
+    def __init__(self):
+	self.base_url = 'http://api.sba.gov/rec_sites'
 
-    def sites_by_domain(self, domain):
-	url = 'rec_sites/keywords/domain/%s' % domain
-	return self.api(url)
+    def by_keyword(self, keyword):
+	url = 'keywords/%s' % keyword
+	return self.call_api(url)
 
+    def by_category(self, category):
+	url = 'category/%s' % category
+	return self.call_api(url)
 
-    def city_county_data_urls(self, state, county = None, city = None):
-	if county == '_yes' and city == '_yes':
+    def by_master_term(self, term):
+	url = 'keywords/master_term/%s' % term
+	return self.call_api(url)
+
+    def by_domain(self, domain):
+	url = 'keywords/domain/%s' % domain
+	return self.call_api(url)
+
+class City_And_County_Web_Data(SBA_API):
+
+    def __init__(self):
+	self.base_url = 'http://api.sba.gov/geodate'
+
+    def all_urls_by_state(self, state, show_county = True, show_city = True):
+	if show_county and show_city:
 	    url = 'city_county_links_for_state_of/%s' % state
-	elif not county and city == '_yes':
+	elif not show_county and show_city:
 	    url = 'city_links_for_state_of/%s' % state
-	elif county == '_yes' and not city:
+	elif show_county and not show_city:
 	    url = 'county_links_for_state_of/%s' % state
-	elif not county and city:
-	    url = 'all_links_for_city_of/%s/%s' % (city, state) 
-	elif county and not city:
-	    url = 'all_links_for_county_of/%s/%s' % (county, state)
-	return self.api('geodata/' + url)
+	else:
+	    url = 'city_county_links_for_state_of/%s' % state
+	    
+    def all_urls_by_city(self, state, city = None):
+	url = 'all_links_for_city_of/%s/%s' % (city, state) 
+	return self.call_api(url)
+
+    def all_urls_by_county(self, state, county = None):
+	url = 'all_links_for_county_of/%s/%s' % (city, state) 
+	return self.call_api(url)
 	
-    def city_county_data_primary_urls(self, state, county = None, city = None):
-	if county == '_yes' and city == '_yes':
+    def primary_urls_by_state(self, state, show_county = True, show_city = True):
+	if show_county and show_city:
 	    url = 'primary_city_county_links_for_state_of/%s' % state
-	elif not county and city == '_yes':
-	    url = 'primary_city_links_for_state_of/%s' % state
-	elif county == '_yes' and not city:
+	elif show_county and not show_city:
 	    url = 'primary_county_links_for_state_of/%s' % state
-	elif not county and city:
-	    url = 'primary_links_for_city_of/%s/%s' % (city, state) 
-	elif county and not city:
-	    url = 'primary_links_for_county_of/%s/%s' % (county, state)
-	return self.api('geodata/' + url)
-	  
-    def city_county_data_all(self, state, county = None, city = None):
-	if county == '_yes' and city == '_yes':
+	elif not show_county and show_city:
+	    url = 'primary_city_links_for_state_of/%s' % state
+	else:
+	    url = 'primary_city_county_links_for_state_of/%s' % state
+	return self.call_api(url)
+
+    def primary_urls_by_city(self, state, city = None):
+	url = 'primary_links_for_city_of/%s/%s' % (city, state) 
+	return self.call_api(url)
+
+    def primary_urls_by_county(self, state, county = None):
+	url = 'primary_links_for_county_of/%s/%s' % (county, state)
+	return self.call_api(url)
+
+    def all_data_by_state(self, state, county = None, city = None):
+	if show_county and show_city:
 	    url = 'city_county_data_for_state_of/%s' % state
-	elif not county and city == '_yes':
-	    url = 'city_data_for_state_of/%s' % state
-	elif county == '_yes' and not city:
+	elif show_county and not show_city:
 	    url = 'county_data_for_state_of/%s' % state
-	elif not county and city:
-	    url = 'all_data_for_city_of/%s/%s' % (city, state) 
-	elif county and not city:
-	    url = 'all_data_for_county_of/%s/%s' % (county, state)
-	return self.api('geodata/' + url)
-	  
-   
+	elif not show_county and show_city:
+	    url = 'city_data_for_state_of/%s' % state
+	else:
+	    url = 'city_county_data_for_state_of/%s' % state
+	return self.call_api(url)
+
+    def all_data_by_city(self, state, city = None):
+	url = 'all_data_for_city_of/%s/%s' % (city, state) 
+	return self.call_api(url)
+
+    def all_data_by_county(self, state, county = None):
+	url = 'all_data_for_county_of/%s/%s' % (county, state)
+	return self.call_api(url)
