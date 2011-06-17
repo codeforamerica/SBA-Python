@@ -100,6 +100,10 @@ class Licenses_And_Permits(SBA_API):
         'massage', 'therapist', 'plumber', 'restaurant', 
         'insurance requirements', 'new hire reporting requirements', 
         'state tax registration', 'workplace poster requirements'
+
+        @see http://www.sba.gov/content/business-licenses-permits-api-business-type-method
+
+        >>> api.Licenses_And_Permits().by_business_type('general business license')
         
         """
         url = 'by_business_type/%s' % business_type
