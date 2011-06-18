@@ -181,6 +181,7 @@ class Licenses_And_Permits(SBA_API):
         @param city [String] Input the name of the City. 
 
         @see http://www.sba.gov/content/business-licenses-permits-api-business-type-state-and-city-method
+
         >>> api.Licenses_And_Permits().by_business_type_state_city(
                 'restaurant', 'ny', 'albany')
         """
@@ -209,7 +210,6 @@ class Licenses_And_Permits(SBA_API):
         >>> api.Licenses_And_Permits().by_business_type_zipcode('restaurant',
                 '49684')
         """
-        def business_type_zip(business, zip, options={})
         url = 'by_zip/%s/%s' % (business, str(zipcode))
         return self.call_api(url)
 
@@ -238,6 +238,7 @@ class Loans_And_Grants(SBA_API):
         @param state [String] input the two leter postal code for the state abbreviation
 
         @see http://www.sba.gov/content/loans-grants-search-api-programs-specific-state-method
+
         >>> api.Loans_And_Grants().state('ia')
         """
         url = 'state_financing_for/%s' % state
@@ -348,6 +349,8 @@ class Loans_And_Grants(SBA_API):
         >>> api.Loans_And_Grants().by_state_specialty('ny', 'general_purpose')
         >>> api.Loans_And_Grants().by_state_specialty('ny'
                 'general_purpose-woman')
+        >>> api.Loans_And_Grants().by_industry_specialty('manufacturing',
+                'woman-minority')
         """
         url = '%s/for_profit/nil/%s' % (state, specialty)
         return self.call_api(url)
@@ -383,21 +386,65 @@ class Recommended_Sites(SBA_API):
         self.base_url = 'http://api.sba.gov/rec_sites'
 
     def all_sites(self):
+        """
+        Returns all recommended sites for all keywords and phrases.
+
+        @see http://www.sba.gov/about-sba-services/7630#all
+
+        >>> api.Recommended_Sites().all_sites()
+        """
         return self.call_api('all_sites/keywords')
 
     def by_keyword(self, keyword):
+        """
+        Returns all recommended sites for a specific keyword.
+
+        @param keyword [String] A search word or phrase.
+
+        @see http://www.sba.gov/about-sba-services/7630#keyword
+
+        >>> api.Recommended_Sites().by_keyword('contracting')
+        """
         url = 'keywords/%s' % keyword
         return self.call_api(url)
 
     def by_category(self, category):
+        """
+        Returns all recommended sites for a specific category.
+
+        @param category [String] Name of standard category.
+
+        @see http://www.sba.gov/about-sba-services/7630#category
+
+        >>> api.Recommended_Sites().by_category('managing a business')
+        """
         url = 'category/%s' % category
         return self.call_api(url)
 
     def by_master_term(self, term):
+        """
+        Returns all recommended sites assigned a specific master term.
+
+        @param term [String] A standard search word or phrase assigned to 
+        group of synonyms
+
+        @see http://www.sba.gov/about-sba-services/7630#master
+
+        >>> api.Recommended_Sites().by_master_term('export')
+        """
         url = 'keywords/master_term/%s' % term
         return self.call_api(url)
 
     def by_domain(self, domain):
+        """
+        Returns all recommended sites belonging to a specific domain
+
+        @param domain [String] Domain name without the www or .com, .gov, .net
+
+        @see http://www.sba.gov/about-sba-services/7630#domain
+        
+        >>> api.Recommended_Sites().by_domain('irs')
+        """
         url = 'keywords/domain/%s' % domain
         return self.call_api(url)
 
@@ -420,15 +467,30 @@ class City_And_County_Web_Data(SBA_API):
 
     def all_urls_by_county(self, state, county):
         """
-        Semi-internal method for calling USA Today's Census API. Most of the
-        other methods rely on this method.
+        Returns All County URLS in a State
 
-        >>> Census().api('locations', keypat='KY')
+        @param state [String] The two letter postal code for the state abbreviation.
+        @param county [String] Input the name of the county (or its equivalent), including the word county in the name
+
+        @see http://www.sba.gov/content/us-city-and-county-web-data-api-city-county-data-all-urls
+
+        >>> api.City_And_County_Web_Data().all_urls_by_county('ca',
+                'orange county')
         """
         url = 'all_links_for_county_of/%s/%s' % (county, state)
         return self.call_api(url)
 
     def all_urls_by_city(self, state, city):
+        """
+        Returns All City URLS in a State
+
+        @param state [String] The two letter postal code for the state abbreviation.
+        @param city [String] Input the name of the city, town or village.
+
+        @see http://www.sba.gov/content/us-city-and-county-web-data-api-city-county-data-all-urls
+        
+        >>> api.City_And_County_Web_Data().all_urls_by_city('tx', 'dallas')
+        """
         url = 'all_links_for_city_of/%s/%s' % (city, state)
         return self.call_api(url)
 
@@ -450,10 +512,29 @@ class City_And_County_Web_Data(SBA_API):
         return self.call_api(url)
 
     def primary_urls_by_county(self, state, county):
+        """Returns the primary URL for a specific County
+
+        @param county [String] Input the name of the county (or its equivalent), including the word county in the name
+        @param state [String] The two letter postal code for the state abbreviation.
+
+        @see http://www.sba.gov/content/us-city-and-county-web-data-api-city-county-data-primary-methods#county
+        
+        >>> api.City_And_County_Web_Data().primary_urls_by_county('wa',
+                'king county')
+        """
         url = 'primary_links_for_county_of/%s/%s' % (county, state)
         return self.call_api(url)
 
-    def primary_urls_by_city(self, state, city):
+    def primary_url_for_city(self, state, city):
+        """Returns the primary URL for a specific city
+
+        @param state [String] The two letter postal code for the state abbreviation.
+        @param city [String] Input the name of the city, town or village.
+
+        @see http://www.sba.gov/content/us-city-and-county-web-data-api-city-county-data-primary-methods#city
+
+        >>> api.City_And_County_Web_Data().primary_url_for_city('tx', 'dallas')
+        """
         url = 'primary_links_for_city_of/%s/%s' % (city, state)
         return self.call_api(url)
 

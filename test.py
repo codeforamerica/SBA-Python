@@ -187,7 +187,7 @@ class TestMethod_Loans_And_Grants(unittest.TestCase):
         self.assertEquals(url, expected_url)
 
     def testmethod_by_state_specialty_multiple(self):
-        api.Loans_And_Grants().by_state_specialty('ny'
+        api.Loans_And_Grants().by_state_specialty('ny',
                 'general_purpose-woman')
         url = called_url()
         expected_url = ('http://api.sba.gov/loans_grants/ny/for_profit/nil/'
@@ -342,8 +342,8 @@ class TestMethod_City_And_County_Web_Data(unittest.TestCase):
                         'wa.json')
         self.assertEquals(url, expected_url)
 
-    def testmethod_primary_urls_by_city(self):
-        api.City_And_County_Web_Data().primary_urls_by_city('tx', 'dallas')
+    def testmethod_primary_url_for_city(self):
+        api.City_And_County_Web_Data().primary_url_for_city('tx', 'dallas')
         url = called_url()
         expected_url = ('http://api.sba.gov/geodata/primary_links_for_city_of/'
                         'dallas/tx.json')
