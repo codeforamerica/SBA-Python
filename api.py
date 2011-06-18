@@ -220,37 +220,159 @@ class Loans_And_Grants(SBA_API):
         self.base_url = 'http://api.sba.gov/loans_grants'
 
     def federal(self):
+        """
+        Returns financing programs available from Federal government agencies 
+        and select non-profit organizations nationwide.
+        
+        @see http://www.sba.gov/content/loans-grants-search-api-federal-program-method
+
+        >>> api.Loans_And_Grants().federal()
+        """
         return self.call_api('federal')
 
     def state(self, state):
+        """
+        Returns all small business financing programs sponsored by state 
+        government agencies and select non-profit and commercial organizations.
+        
+        @param state [String] input the two leter postal code for the state abbreviation
+
+        @see http://www.sba.gov/content/loans-grants-search-api-programs-specific-state-method
+        >>> api.Loans_And_Grants().state('ia')
+        """
         url = 'state_financing_for/%s' % state
         return self.call_api(url)
 
     def federal_and_state(self, state):
+        """
+        Returns all small business financing programs sponsored by federal 
+        and state government agencies and selected non-profit and commercial 
+        organizations.
+
+        @param state [String] input the two leter postal code for the state 
+        abbreviation
+
+        @see http://www.sba.gov/content/loans-grants-search-api-federal-and-state-specific-method
+        >>>  api.Loans_And_Grants().federal_and_state('me')
+        """
         url = 'federal_and_state_financing_for/%s' % state
         return self.call_api(url)
 
     def by_industry(self, industry):
+        """
+        Returns all small business financing programs for a specific industry 
+        in all 54 states and territories (when available).
+
+        @param industry [String] input one of the standard industry values: 
+        'agriculture', 'child care', 'environmental management', 'health care',
+        'manufacturing', 'technology', 'tourism'
+
+        @see http://www.sba.gov/content/loans-grants-search-api-industry-method
+
+        >>> api.Loans_And_Grants().by_industry('manufacturing')
+        """
         url = 'nil/for_profit/%s/nil' % industry
         return self.call_api(url)
 
     def by_speciality(self, specialty):
+        """
+        Returns small business special financing programs for certain business owner 
+        groups (e.g., women, veterans, minorities, etc.); or business activities 
+        (e.g., export, energy efficiency, disaster assistance, etc.).
+
+        @param specialty [String] input one or more of the standard industry
+        values. Multiple specialities should be separated by dashes. Specialties:
+        'general_purpose', 'development', 'exporting', 'contractor', 'green',
+        'military', 'minority', 'woman', 'disabled', 'rural', 'disaster'
+
+        @see http://www.sba.gov/content/loans-grants-search-api-specialty-method
+        
+        >>> api.Loans_And_Grants().by_speciality('woman')
+        >>> api.Loans_And_Grants().by_speciality('woman-general_purpose')
+        """
         url = 'nil/for_profit/nil/%s' % specialty
         return self.call_api(url)
 
     def by_industry_specialty(self, industry, specialty):
+        """
+        Returns financing programs for specific industries AND specific business 
+        groups (e.g., women, veterans, minorities, etc.); or business activities 
+        (e.g., export, energy efficiency, disaster assistance, etc.).
+
+        @param industry [String] input one of the standard industry values: 
+        'agriculture', 'child care', 'environmental management', 'health care',
+        'manufacturing', 'technology', 'tourism'
+        @param specialty [String] input one or more of the standard industry
+        values. Multiple specialities should be separated by dashes. Specialties:
+        'general_purpose', 'development', 'exporting', 'contractor', 'green',
+        'military', 'minority', 'woman', 'disabled', 'rural', 'disaster'
+
+        @see http://www.sba.gov/content/loans-grants-search-api-industry-and-specialty-method
+        >>> api.Loans_And_Grants().by_industry_specialty('manufacturing', 'woman')
+        >>> api.Loans_And_Grants().by_industry_specialty('manufacturing',
+                'woman-minority')
+        """
         url = 'nil/for_profit/%s/%s' % (industry, specialty)
         return self.call_api(url)
 
     def by_state_industry(self, state, industry):
+        """
+        Returns all small business financing programs for a specific industry 
+        in a specific state.
+
+        @param state [String]  input the two leterl postal code for state abbreviation
+        @param industry [String] input one of the standard industry values: 
+        'agriculture', 'child care', 'environmental management', 'health care',
+        'manufacturing', 'technology', 'tourism'
+
+        @see http://www.sba.gov/content/loans-grants-search-api-state-and-industry-method
+
+        >>> api.Loans_And_Grants().by_state_industry('me', 'manufacturing')
+        """
         url = '%s/for_profit/%s/nil' % (state, industry)
         return self.call_api(url)
 
     def by_state_specialty(self, state, specialty):
+        """
+        Returns state programs for specific business groups or specialized 
+        business activities.
+
+        @param state [String]  input the two leterl postal code for state abbreviation
+        @param specialty [String] input one or more of the standard industry
+        values. Multiple specialities should be separated by dashes. Specialties:
+        'general_purpose', 'development', 'exporting', 'contractor', 'green',
+        'military', 'minority', 'woman', 'disabled', 'rural', 'disaster'
+        
+        @see http://www.sba.gov/content/loans-grants-search-api-state-and-specialty-method
+
+        >>> api.Loans_And_Grants().by_state_specialty('ny', 'general_purpose')
+        >>> api.Loans_And_Grants().by_state_specialty('ny'
+                'general_purpose-woman')
+        """
         url = '%s/for_profit/nil/%s' % (state, specialty)
         return self.call_api(url)
 
     def by_state_industry_specialty(self, state, industry, specialty):
+        """
+        Returns state programs by industry and specific business groups or 
+        specialized business activities.
+
+        @param state [String]  input the two letter postal code for state abbreviation
+        @param industry [String] input one of the standard industry values: 
+        'agriculture', 'child care', 'environmental management', 'health care',
+        'manufacturing', 'technology', 'tourism'
+        @param specialty [String] input one or more of the standard industry
+        values. Multiple specialities should be separated by dashes. Specialties:
+        'general_purpose', 'development', 'exporting', 'contractor', 'green',
+        'military', 'minority', 'woman', 'disabled', 'rural', 'disaster'
+
+        @see http://www.sba.gov/content/loans-grants-search-api-state-industry-and-specialty-method
+        >>> api.Loans_And_Grants().by_state_industry_specialty('me',
+                'manufacturing', 'woman')
+
+        >>> api.Loans_And_Grants().by_state_industry_specialty('me',
+                'manufacturing', 'development-woman')
+        """
         url = '%s/for_profit/%s/%s' % (state, industry, specialty)
         return self.call_api(url)
 
