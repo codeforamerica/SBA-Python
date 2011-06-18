@@ -50,9 +50,6 @@ class TestApiMethod(unittest.TestCase):
 
 class TestMethod_Licenses_And_Permits(unittest.TestCase):
 
-    #def __init__(self):
-    #self.base_url = 'http://api.sba.gov/license_permit'
-
     def setUp(self):
         set_up_tests()
 
@@ -112,9 +109,6 @@ class TestMethod_Licenses_And_Permits(unittest.TestCase):
 
 
 class TestMethod_Loans_And_Grants(unittest.TestCase):
-
-    #def __init__(self):
-        #self.base_url = 'http://api.sba.gov/loans_grants'
 
     def testmethod_federal(self):
         api.Loans_And_Grants().federal()
@@ -213,11 +207,6 @@ class TestMethod_Loans_And_Grants(unittest.TestCase):
 
 class TestMethod_Recommended_Sites(unittest.TestCase):
 
-    #def __init__(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
-        #self.base_url = 'http://api.sba.gov/rec_sites'
     def testmethod_all_sites(self):
         api.Recommended_Sites().all_sites()
         url = called_url()
@@ -254,12 +243,6 @@ class TestMethod_Recommended_Sites(unittest.TestCase):
 
 
 class TestMethod_City_And_County_Web_Data(unittest.TestCase):
-
-    #def __init__(self):
-        #url = called_url()
-        #expected_url = ('')
-        #self.assertEquals(url, expected_url)
-        #self.base_url = 'http://api.sba.gov/geodata'
 
     def testmethod_all_urls_by_state_citycountyurls(self):
         api.City_And_County_Web_Data().all_urls_by_state('tx', True, True)
