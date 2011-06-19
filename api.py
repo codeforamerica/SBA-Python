@@ -51,7 +51,7 @@ class Licenses_And_Permits(SBA_API):
     def __init__(self):
         self.base_url = 'http://api.sba.gov/license_permit'
 
-    def by_category(self, state):
+    def by_category(self, category):
         """
         Returns results for a matching license or permit category for each 54
         states and territories.
@@ -64,7 +64,7 @@ class Licenses_And_Permits(SBA_API):
 
         >>> api.Licenses_And_Permits().by_category('doing business as')
         """
-        url = 'by_category/%s' % state
+        url = 'by_category/%s' % category 
         return self.call_api(url)
 
     def by_state(self, state):
