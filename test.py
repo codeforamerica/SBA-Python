@@ -6,12 +6,6 @@ import unittest
 
 from mock import Mock
 
-try:
-    from urllib import unquote
-except ImportError:  # pragma: no cover
-    # For Python 3.
-    from urllib.parse import unquote
-
 import api
 from api import (SBA_API, Licenses_And_Permits, Loans_And_Grants,
                  Recommended_Sites, City_And_County_Web_Data)

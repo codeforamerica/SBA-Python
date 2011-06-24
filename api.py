@@ -32,9 +32,10 @@ except ImportError:  # pragma: no cover
 
 
 class SBA_API(object):
-    """Wrapper for the SBA Loans and Grants API."""
+    """WRapper for SBA APIs."""
 
     def __init__(self):
+        """Base URLs should have no '/' at the end"""
         self.base_url = 'http://api.sba.gov'
 
     def call_api(self, directory):
@@ -47,6 +48,9 @@ class SBA_API(object):
 
 
 class Licenses_And_Permits(SBA_API):
+    """Wrapper for the SBA Licenses and Permits API.
+    http://www.sba.gov/about-sba-services/7615
+    """
 
     def __init__(self):
         self.base_url = 'http://api.sba.gov/license_permit'
@@ -64,7 +68,7 @@ class Licenses_And_Permits(SBA_API):
 
         >>> api.Licenses_And_Permits().by_category('doing business as')
         """
-        url = 'by_category/%s' % category 
+        url = 'by_category/%s' % category
         return self.call_api(url)
 
     def by_state(self, state):
@@ -210,6 +214,9 @@ class Licenses_And_Permits(SBA_API):
 
 
 class Loans_And_Grants(SBA_API):
+    """Wrapper for the SBA Licenses and Permits API.
+    http://www.sba.gov/about-sba-services/7615
+    """
 
     def __init__(self):
         self.base_url = 'http://api.sba.gov/loans_grants'
@@ -376,6 +383,9 @@ class Loans_And_Grants(SBA_API):
 
 
 class Recommended_Sites(SBA_API):
+    """Wrapper for the SBA Licenses and Permits API.
+    http://www.sba.gov/about-sba-services/7630
+    """
 
     def __init__(self):
         self.base_url = 'http://api.sba.gov/rec_sites'
@@ -445,6 +455,9 @@ class Recommended_Sites(SBA_API):
 
 
 class City_And_County_Web_Data(SBA_API):
+    """Wrapper for the SBA Licenses and Permits API.
+    http://www.sba.gov/about-sba-services/7617
+    """
 
     def __init__(self):
         self.base_url = 'http://api.sba.gov/geodata'
